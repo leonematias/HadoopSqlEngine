@@ -1,0 +1,60 @@
+<project name="build" basedir=".">
+	<description>HadoopSqlEngine</description>
+
+	<!-- Config -->
+	<property name="jarName" value="HadoopSqlEngine.jar"/>
+	<property name="ant.build.javac.source" value="1.6"/>
+	<property name="ant.build.javac.target" value="1.6"/>
+
+	<path id="classpath">
+        <fileset dir="lib" includes="**/*.jar"/>
+    </path>
+		
+	<target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes" classpathref="classpath"/>
+    </target>
+	
+	<target name="jar">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/${jarName}" basedir="build/classes">
+        </jar>
+    </target>
+	
+
+	<target name="clean-build" depends="clean,compile,jar"/>
+	
+	
+	
+	
+	
+	<property name="host" value="vmias85340.ms.com"/>
+	<property name="username" value="matiasl"/>
+	<property name="password" value="Maglobant656"/>
+	<property name="remoteHadoopDir" value="/v/campus/ny/cs/ird/matiasl/hadoop/hadoop-2.5.1"/>
+	<macrodef name="sshCommand">
+		<attribute name="command"/>
+		<sequential>
+			<sshexec host="${host}" username="${username}" password="${password}" command="@{command}" trust="true"/>
+		</sequential>
+	</macrodef>
+	<target name="remoteCopyJar">
+		<scp file="build/jar/${jarName}" todir="${username}:${password}@${host}:${remoteHadoopDir}" trust="true"/>
+	</target>
+	<target name="deploy" depends="clean-build,remoteCopyJar"/>
+	
+	
+
+
+</project>
+
+
+
+
+
+
+
