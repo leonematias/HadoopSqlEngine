@@ -36,7 +36,7 @@ bin/hadoop jar HadoopSqlEngine.jar sqlEngine.TestDataGenerator "input" 1000000
 
 
 ##Examples
-Go to hadoop home
+Go to hadoop home:
 cd $HADOOP_HOME
 
 ####Simple query
